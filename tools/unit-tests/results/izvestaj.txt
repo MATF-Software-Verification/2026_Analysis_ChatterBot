@@ -1,0 +1,57 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.10, pytest-9.0.3, pluggy-1.6.0
+rootdir: C:\Users\bogda\Desktop\MATF projekti\matf verifikacija\seminarski-chatterbot
+configfile: pytest.ini
+plugins: anyio-4.14.2, hypothesis-6.145.1, cov-7.1.0
+collected 112 items
+
+tests\unit\test_comparisons.py .....................                     [ 18%]
+tests\unit\test_math_adapter.py ................                         [ 33%]
+tests\unit\test_preprocessors.py ...............................         [ 60%]
+tests\unit\test_response_selection.py ............                       [ 71%]
+tests\unit\test_statement.py ..................                          [ 87%]
+tests\unit\test_utils.py ..............                                  [100%]
+
+=============================== tests coverage ================================
+______________ coverage: platform win32, python 3.12.10-final-0 _______________
+
+Name                                                     Stmts   Miss  Cover   Missing
+--------------------------------------------------------------------------------------
+ChatterBot\chatterbot\__init__.py                            3      0   100%
+ChatterBot\chatterbot\__main__.py                           13     13     0%   7-27
+ChatterBot\chatterbot\adapters.py                            8      1    88%   22
+ChatterBot\chatterbot\chatterbot.py                        166    115    31%   91, 100, 103-119, 137-138, 177-269, 277-346, 352-376, 383-391
+ChatterBot\chatterbot\comparisons.py                        48      3    94%   20, 28, 34
+ChatterBot\chatterbot\components.py                         26     18    31%   19-55, 64-70
+ChatterBot\chatterbot\constants.py                          10      0   100%
+ChatterBot\chatterbot\conversation.py                       43      1    98%   118
+ChatterBot\chatterbot\corpus.py                             46     46     0%   1-91
+ChatterBot\chatterbot\exceptions.py                          2      0   100%
+ChatterBot\chatterbot\ext\__init__.py                        0      0   100%
+ChatterBot\chatterbot\ext\sqlalchemy_app\__init__.py         0      0   100%
+ChatterBot\chatterbot\ext\sqlalchemy_app\models.py          29      2    93%   106, 112
+ChatterBot\chatterbot\filters.py                             7      6    14%   6-23
+ChatterBot\chatterbot\logic\__init__.py                      8      0   100%
+ChatterBot\chatterbot\logic\best_match.py                   42     34    19%   29-150
+ChatterBot\chatterbot\logic\llm_adapters.py                280    244    13%   56-100, 110-123, 142-171, 184-187, 199, 209-218, 228, 238, 251-278, 291, 307-359, 373, 387, 403-415, 429-439, 470-480, 496-547, 556-561, 575-585, 598-609, 622-693, 723-733, 744, 753-758, 772-782, 795-806, 819-887
+ChatterBot\chatterbot\logic\logic_adapter.py                39     16    59%   55-60, 72, 87, 106, 113-128, 136
+ChatterBot\chatterbot\logic\mathematical_evaluation.py      43      3    93%   75, 118-119
+ChatterBot\chatterbot\logic\mcp_tools.py                    41     29    29%   67, 86, 97-98, 110-137, 150, 178, 209
+ChatterBot\chatterbot\logic\specific_response.py            48     38    21%   21-46, 49-51, 54-63, 67-86
+ChatterBot\chatterbot\logic\time_adapter.py                 31     19    39%   23-53, 56-69, 75, 92-93
+ChatterBot\chatterbot\logic\unit_conversion.py              85     68    20%   26-76, 86-91, 105-109, 118-139, 142-144, 147-166, 172, 197-213
+ChatterBot\chatterbot\parsing.py                           186    149    20%   510-517, 524-544, 551-558, 570-584, 594-646, 656-662, 672-692, 699-708, 715-718, 725-730, 737-759
+ChatterBot\chatterbot\preprocessors.py                      17      0   100%
+ChatterBot\chatterbot\response_selection.py                 28      0   100%
+ChatterBot\chatterbot\search.py                             74     50    32%   44-79, 125-159, 217-250
+ChatterBot\chatterbot\storage\__init__.py                    6      0   100%
+ChatterBot\chatterbot\storage\django_storage.py            112     98    12%   19-39, 49-50, 53-54, 57-58, 65-130, 137-157, 163-187, 193-213, 219-226, 234-238, 244-248
+ChatterBot\chatterbot\storage\sql_storage.py               223    168    25%   36, 79, 123-124, 130-131, 134-136, 142-149, 157-166, 176-256, 271-316, 322-371, 378-426, 432-447, 453-463, 478-483
+ChatterBot\chatterbot\storage\storage_adapter.py            44     19    57%   28-32, 40-44, 47-55, 61, 71, 122, 131, 139, 148, 156, 164, 174, 260-261
+ChatterBot\chatterbot\tagging.py                            55     27    51%   14, 23, 29, 45-54, 81, 84-89, 108-116, 142, 148-153, 174-182
+ChatterBot\chatterbot\trainers.py                          277    277     0%   1-696
+ChatterBot\chatterbot\utils.py                              38      8    79%   84-88, 99-104
+--------------------------------------------------------------------------------------
+TOTAL                                                     2078   1452    30%
+Coverage HTML written to dir tools/unit-tests/results/htmlcov
+======================= 112 passed in 77.39s (0:01:17) ========================

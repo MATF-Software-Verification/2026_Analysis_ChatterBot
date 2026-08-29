@@ -1,0 +1,62 @@
+name: Verifikacija ChatterBot-a
+
+# GitHub na svom serveru preuzme repozitorijum, instalira sve od nule i pokrene
+# sve alate. Tako se vidi da rezultati ne zavise od toga sto je nesto vec
+# instalirano na mom racunaru.
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:        # dugme za rucno pokretanje na GitHub-u
+
+jobs:
+  analiza:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Preuzimanje repozitorijuma zajedno sa submodulom
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Postavljanje Pythona
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Instalacija analiziranog projekta i alata
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e "./ChatterBot[dev]"
+          pip install -r requirements.txt
+          python -m spacy download en_core_web_sm
+
+      - name: 1. Jedinicni testovi i pokrivenost
+        run: pytest tests/unit --cov=ChatterBot/chatterbot --cov-report=term-missing
+
+      - name: 2. Integracioni testovi
+        run: pytest tests/integration
+
+      - name: 3. Property-based testovi
+        run: pytest tests/property
+
+      # Statickoj analizi je dodato continue-on-error jer cilj rada nije da
+      # tudji projekat "padne" zbog 85 predugackih linija, nego da se nalazi
+      # prikupe i protumace. Ostaju vidljivi u logu.
+      - name: 4. flake8
+        continue-on-error: true
+        run: flake8 --max-line-length=100 --statistics ChatterBot/chatterbot
+
+      - name: 5. mypy
+        continue-on-error: true
+        run: mypy --ignore-missing-imports --show-error-codes ChatterBot/chatterbot
+
+      - name: 6. bandit
+        continue-on-error: true
+        run: bandit -r ChatterBot/chatterbot
+
+      # PoC vraca 0 dok god ranjivost postoji. Ako je projekat popravi, skripta
+      # vrati 1 i ovaj korak pukne - znak da nalaz treba osveziti.
+      - name: Dokaz za bezbednosni nalaz
+        run: python tools/bandit/poc_path_traversal.py

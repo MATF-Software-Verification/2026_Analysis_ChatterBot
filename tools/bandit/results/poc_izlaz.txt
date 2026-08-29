@@ -1,0 +1,8 @@
+Dozvoljeni direktorijum : C:\Users\bogda\AppData\Local\Temp\chatterbot_poc_dp67khdm\ubuntu_data\ubuntu_dialogs
+Clan arhive             : ../ubuntu_dialogs_evil/pwned.txt
+Extracting C:\Users\bogda\AppData\Local\Temp\chatterbot_poc_dp67khdm\malicious.tar
+Rezultat extract()      : PROSAO bez izuzetka
+Fajl van dozvoljenog dir.: True
+Putanja                 : C:\Users\bogda\AppData\Local\Temp\chatterbot_poc_dp67khdm\ubuntu_data\ubuntu_dialogs_evil\pwned.txt
+
+ZAKLJUCAK: ZASTITA JE PROBIJENA

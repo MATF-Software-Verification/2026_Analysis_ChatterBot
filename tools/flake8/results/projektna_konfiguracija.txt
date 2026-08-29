@@ -1,0 +1,3 @@
+ChatterBot/chatterbot\logic\llm_adapters.py:323:176: E501 line too long (208 > 175 characters)
+ChatterBot/chatterbot\storage\redis.py:564:13: F841 local variable 'ids' is assigned to but never used
+ChatterBot/chatterbot\trainers.py:421:1: W293 blank line contains whitespace

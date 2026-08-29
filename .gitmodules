@@ -1,0 +1,3 @@
+[submodule "ChatterBot"]
+	path = ChatterBot
+	url = https://github.com/gunthercox/ChatterBot.git

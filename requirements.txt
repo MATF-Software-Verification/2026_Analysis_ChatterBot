@@ -1,0 +1,22 @@
+# Alati koje koristimo za analizu. Zavisnosti samog ChatterBot-a se ne navode
+# ovde nego se instaliraju iz submodula:  pip install -e ./ChatterBot[dev]
+#
+# Verzije su zakucane da bi brojke iz izvestaja (npr. "mypy prijavljuje 46
+# gresaka") vazile i kod nekog drugog.
+
+# jedinicni i integracioni testovi, uz merenje pokrivenosti
+pytest==9.0.3
+pytest-cov==7.1.0
+coverage==7.14.0
+
+# property-based testiranje
+hypothesis==6.145.1
+
+# stilske provere
+flake8==7.3.0
+
+# staticka provera tipova
+mypy==1.19.0
+
+# bezbednosna analiza
+bandit==1.9.2

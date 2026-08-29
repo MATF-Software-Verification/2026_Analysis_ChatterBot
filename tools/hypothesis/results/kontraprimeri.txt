@@ -1,0 +1,11 @@
+Trazenje ulaza koji obaraju datetime_parsing (5000 primera)...
+
+Pronadjene razlicite greske:
+
+  ulaz '31 friday end of the friday' (bazni datum 2022-03-24) -> TypeError: unsupported operand type(s) for +: 'NoneType' and 'datetime.timedelta'
+  ulaz 'end of the week end of the of' (bazni datum 2022-06-11) -> TypeError: unsupported operand type(s) for +: 'int' and 'datetime.timedelta'
+  ulaz '30 31st february in'  (bazni datum 2020-03-01) -> ValueError: day is out of range for month
+  ulaz 'in day 29 hours'      (bazni datum 2023-02-24) -> ValueError: hour must be in 0..23
+  ulaz 'last month last monday' (bazni datum 2020-01-07) -> ValueError: month must be in 1..12
+
+Ukupno razlicitih gresaka: 5

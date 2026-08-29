@@ -1,0 +1,81 @@
+Working... ---------------------------------------- 100% 0:00:01
+Run started:2026-08-27 19:14:44.690031+00:00
+
+Test results:
+>> Issue: [B311:blacklist] Standard pseudo-random generators are not suitable for security/cryptographic purposes.
+   Severity: Low   Confidence: High
+   CWE: CWE-330 (https://cwe.mitre.org/data/definitions/330.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_calls.html#b311-random
+   Location: ChatterBot/chatterbot\logic\logic_adapter.py:114:23
+113	        if self.default_responses:
+114	            response = choice(self.default_responses)
+115	        else:
+
+--------------------------------------------------
+>> Issue: [B311:blacklist] Standard pseudo-random generators are not suitable for security/cryptographic purposes.
+   Severity: Low   Confidence: High
+   CWE: CWE-330 (https://cwe.mitre.org/data/definitions/330.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_calls.html#b311-random
+   Location: ChatterBot/chatterbot\response_selection.py:91:11
+90	    ))
+91	    return choice(response_list)
+
+--------------------------------------------------
+>> Issue: [B311:blacklist] Standard pseudo-random generators are not suitable for security/cryptographic purposes.
+   Severity: Low   Confidence: High
+   CWE: CWE-330 (https://cwe.mitre.org/data/definitions/330.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_calls.html#b311-random
+   Location: ChatterBot/chatterbot\storage\mongodb.py:251:25
+250	
+251	        random_integer = randint(0, count - 1)
+252	
+
+--------------------------------------------------
+>> Issue: [B311:blacklist] Standard pseudo-random generators are not suitable for security/cryptographic purposes.
+   Severity: Low   Confidence: High
+   CWE: CWE-330 (https://cwe.mitre.org/data/definitions/330.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.2/blacklists/blacklist_calls.html#b311-random
+   Location: ChatterBot/chatterbot\storage\sql_storage.py:440:27
+439	
+440	            random_index = random.randrange(0, count)
+441	            random_statement = session.query(Statement)[random_index]
+
+--------------------------------------------------
+>> Issue: [B113:request_without_timeout] Call to requests without timeout
+   Severity: Medium   Confidence: Low
+   CWE: CWE-400 (https://cwe.mitre.org/data/definitions/400.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.2/plugins/b113_request_without_timeout.html
+   Location: ChatterBot/chatterbot\trainers.py:596:23
+595	                print('Downloading %s' % url)
+596	            response = requests.get(url, stream=True)
+597	            total_length = response.headers.get('content-length')
+
+--------------------------------------------------
+>> Issue: [B202:tarfile_unsafe_members] tarfile.extractall used without any validation. Please check and discard dangerous members.
+   Severity: High   Confidence: High
+   CWE: CWE-22 (https://cwe.mitre.org/data/definitions/22.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.2/plugins/b202_tarfile_unsafe_members.html
+   Location: ChatterBot/chatterbot\trainers.py:640:12
+639	
+640	            tar.extractall(path, members, numeric_owner=numeric_owner)
+641	
+
+--------------------------------------------------
+
+Code scanned:
+	Total lines of code: 7674
+	Total lines skipped (#nosec): 0
+	Total potential issues skipped due to specifically being disabled (e.g., #nosec BXXX): 0
+
+Run metrics:
+	Total issues (by severity):
+		Undefined: 0
+		Low: 4
+		Medium: 1
+		High: 1
+	Total issues (by confidence):
+		Undefined: 0
+		Low: 1
+		Medium: 0
+		High: 5
+Files skipped (0):

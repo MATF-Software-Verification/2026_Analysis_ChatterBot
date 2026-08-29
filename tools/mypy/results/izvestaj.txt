@@ -1,0 +1,71 @@
+ChatterBot\chatterbot\ext\django_chatterbot\migrations\0001_initial.py:9: error: Need type annotation for "dependencies" (hint: "dependencies: list[<type>] = ...")  [var-annotated]
+ChatterBot\chatterbot\corpus.py:49: error: Library stubs not installed for "yaml"  [import-untyped]
+ChatterBot\chatterbot\corpus.py:49: note: Hint: "python3 -m pip install types-PyYAML"
+ChatterBot\chatterbot\conversation.py:2: error: Library stubs not installed for "dateutil"  [import-untyped]
+ChatterBot\chatterbot\conversation.py:2: note: Hint: "python3 -m pip install types-python-dateutil"
+ChatterBot\chatterbot\conversation.py:2: note: (or run "mypy --install-types" to install all missing stub packages)
+ChatterBot\chatterbot\conversation.py:2: note: See https://mypy.readthedocs.io/en/stable/running_mypy.html#missing-imports
+ChatterBot\chatterbot\conversation.py:23: error: Need type annotation for "extra_statement_field_names" (hint: "extra_statement_field_names: list[<type>] = ...")  [var-annotated]
+ChatterBot\chatterbot\conversation.py:35: error: "StatementMixin" has no attribute "tags"  [attr-defined]
+ChatterBot\chatterbot\parsing.py:531: error: Incompatible types in assignment (expression has type "int", variable has type "str")  [assignment]
+ChatterBot\chatterbot\parsing.py:532: error: Incompatible types in assignment (expression has type "int", variable has type "str")  [assignment]
+ChatterBot\chatterbot\parsing.py:538: error: Unsupported operand types for + ("str" and "int")  [operator]
+ChatterBot\chatterbot\parsing.py:542: error: Incompatible types in assignment (expression has type "int", variable has type "str")  [assignment]
+ChatterBot\chatterbot\parsing.py:564: error: Missing return statement  [return]
+ChatterBot\chatterbot\parsing.py:587: error: Missing return statement  [return]
+ChatterBot\chatterbot\parsing.py:595: error: Argument 1 to "convert_string_to_number" has incompatible type "int"; expected "str"  [arg-type]
+ChatterBot\chatterbot\parsing.py:637: error: Unsupported operand types for + ("int" and "timedelta")  [operator]
+ChatterBot\chatterbot\parsing.py:649: error: Missing return statement  [return]
+ChatterBot\chatterbot\parsing.py:665: error: Missing return statement  [return]
+ChatterBot\chatterbot\parsing.py:665: error: Incompatible default for argument "base_time" (default has type "None", argument has type "str")  [assignment]
+ChatterBot\chatterbot\parsing.py:665: note: PEP 484 prohibits implicit Optional. Accordingly, mypy has changed its default to no_implicit_optional=True
+ChatterBot\chatterbot\parsing.py:665: note: Use https://github.com/hauntsaninja/no_implicit_optional to automatically upgrade your codebase
+ChatterBot\chatterbot\parsing.py:682: error: Dict entry 0 has incompatible type "str": "float"; expected "str": "int"  [dict-item]
+ChatterBot\chatterbot\parsing.py:733: error: Incompatible default for argument "base_date" (default has type "None", argument has type "datetime")  [assignment]
+ChatterBot\chatterbot\parsing.py:733: note: PEP 484 prohibits implicit Optional. Accordingly, mypy has changed its default to no_implicit_optional=True
+ChatterBot\chatterbot\parsing.py:733: note: Use https://github.com/hauntsaninja/no_implicit_optional to automatically upgrade your codebase
+ChatterBot\chatterbot\parsing.py:749: error: Incompatible types in assignment (expression has type "str", variable has type "Match[str]")  [assignment]
+ChatterBot\chatterbot\parsing.py:751: error: Unsupported operand types for + ("str" and "Match[str]")  [operator]
+ChatterBot\chatterbot\parsing.py:759: error: Argument 1 to "sorted" has incompatible type "list[tuple[Match[str], object, tuple[int, int]]]"; expected "Iterable[tuple[str, datetime, tuple[int, int]]]"  [arg-type]
+ChatterBot\chatterbot\response_selection.py:32: error: Need type annotation for "occurrence_counts" (hint: "occurrence_counts: dict[<type>, <type>] = ...")  [var-annotated]
+ChatterBot\chatterbot\response_selection.py:50: error: Incompatible return value type (got "Statement | None", expected "Statement")  [return-value]
+ChatterBot\chatterbot\utils.py:28: error: Argument 1 to "import_module" has incompatible type "Any | None"; expected "str"  [arg-type]
+ChatterBot\chatterbot\tagging.py:49: error: Unpacking a string is disallowed  [misc]
+ChatterBot\chatterbot\tagging.py:150: error: Incompatible return value type (got "list[Any]", expected "str")  [return-value]
+ChatterBot\chatterbot\ext\sqlalchemy_app\models.py:15: error: Argument 1 to "declared_attr" has incompatible type "Callable[[ModelBase], str]"; expected "Callable[..., Mapped[Never] | ORMDescriptor[Never] | SQLCoreOperations[Never]]"  [arg-type]
+ChatterBot\chatterbot\ext\sqlalchemy_app\models.py:20: error: "ModelBase" has no attribute "__name__"; maybe "__tablename__"?  [attr-defined]
+ChatterBot\chatterbot\ext\sqlalchemy_app\models.py:40: error: Variable "chatterbot.ext.sqlalchemy_app.models.Base" is not valid as a type  [valid-type]
+ChatterBot\chatterbot\ext\sqlalchemy_app\models.py:40: note: See https://mypy.readthedocs.io/en/stable/common_issues.html#variables-vs-type-aliases
+ChatterBot\chatterbot\ext\sqlalchemy_app\models.py:40: error: Invalid base class "Base"  [misc]
+ChatterBot\chatterbot\ext\sqlalchemy_app\models.py:51: error: Variable "chatterbot.ext.sqlalchemy_app.models.Base" is not valid as a type  [valid-type]
+ChatterBot\chatterbot\ext\sqlalchemy_app\models.py:51: note: See https://mypy.readthedocs.io/en/stable/common_issues.html#variables-vs-type-aliases
+ChatterBot\chatterbot\ext\sqlalchemy_app\models.py:51: error: Invalid base class "Base"  [misc]
+ChatterBot\chatterbot\logic\logic_adapter.py:89: error: Incompatible default for argument "additional_response_selection_parameters" (default has type "None", argument has type "dict[Any, Any]")  [assignment]
+ChatterBot\chatterbot\logic\logic_adapter.py:89: note: PEP 484 prohibits implicit Optional. Accordingly, mypy has changed its default to no_implicit_optional=True
+ChatterBot\chatterbot\logic\logic_adapter.py:89: note: Use https://github.com/hauntsaninja/no_implicit_optional to automatically upgrade your codebase
+ChatterBot\chatterbot\logic\llm_adapters.py:142: error: Need type annotation for "messages" (hint: "messages: list[<type>] = ...")  [var-annotated]
+ChatterBot\chatterbot\logic\llm_adapters.py:417: error: Incompatible default for argument "additional_response_selection_parameters" (default has type "None", argument has type "dict[Any, Any]")  [assignment]
+ChatterBot\chatterbot\logic\llm_adapters.py:417: note: PEP 484 prohibits implicit Optional. Accordingly, mypy has changed its default to no_implicit_optional=True
+ChatterBot\chatterbot\logic\llm_adapters.py:417: note: Use https://github.com/hauntsaninja/no_implicit_optional to automatically upgrade your codebase
+ChatterBot\chatterbot\logic\llm_adapters.py:849: error: Dict entry 1 has incompatible type "str": "None"; expected "str": "str"  [dict-item]
+ChatterBot\chatterbot\logic\llm_adapters.py:850: error: Dict entry 2 has incompatible type "str": "list[dict[str, Any]]"; expected "str": "str"  [dict-item]
+ChatterBot\chatterbot\logic\unit_conversion.py:146: error: Incompatible default for argument "additional_response_selection_parameters" (default has type "None", argument has type "dict[Any, Any]")  [assignment]
+ChatterBot\chatterbot\logic\unit_conversion.py:146: note: PEP 484 prohibits implicit Optional. Accordingly, mypy has changed its default to no_implicit_optional=True
+ChatterBot\chatterbot\logic\unit_conversion.py:146: note: Use https://github.com/hauntsaninja/no_implicit_optional to automatically upgrade your codebase
+ChatterBot\chatterbot\logic\time_adapter.py:55: error: Incompatible default for argument "additional_response_selection_parameters" (default has type "None", argument has type "dict[Any, Any]")  [assignment]
+ChatterBot\chatterbot\logic\time_adapter.py:55: note: PEP 484 prohibits implicit Optional. Accordingly, mypy has changed its default to no_implicit_optional=True
+ChatterBot\chatterbot\logic\time_adapter.py:55: note: Use https://github.com/hauntsaninja/no_implicit_optional to automatically upgrade your codebase
+ChatterBot\chatterbot\logic\specific_response.py:65: error: Incompatible default for argument "additional_response_selection_parameters" (default has type "None", argument has type "dict[Any, Any]")  [assignment]
+ChatterBot\chatterbot\logic\specific_response.py:65: note: PEP 484 prohibits implicit Optional. Accordingly, mypy has changed its default to no_implicit_optional=True
+ChatterBot\chatterbot\logic\specific_response.py:65: note: Use https://github.com/hauntsaninja/no_implicit_optional to automatically upgrade your codebase
+ChatterBot\chatterbot\logic\mathematical_evaluation.py:38: error: Incompatible default for argument "additional_response_selection_parameters" (default has type "None", argument has type "dict[Any, Any]")  [assignment]
+ChatterBot\chatterbot\logic\mathematical_evaluation.py:38: note: PEP 484 prohibits implicit Optional. Accordingly, mypy has changed its default to no_implicit_optional=True
+ChatterBot\chatterbot\logic\mathematical_evaluation.py:38: note: Use https://github.com/hauntsaninja/no_implicit_optional to automatically upgrade your codebase
+ChatterBot\chatterbot\chatterbot.py:162: error: Incompatible default for argument "statement" (default has type "None", argument has type "Statement | str | dict[Any, Any]")  [assignment]
+ChatterBot\chatterbot\chatterbot.py:162: note: PEP 484 prohibits implicit Optional. Accordingly, mypy has changed its default to no_implicit_optional=True
+ChatterBot\chatterbot\chatterbot.py:162: note: Use https://github.com/hauntsaninja/no_implicit_optional to automatically upgrade your codebase
+ChatterBot\chatterbot\trainers.py:9: error: Library stubs not installed for "dateutil"  [import-untyped]
+ChatterBot\chatterbot\trainers.py:326: error: "GenericFileTrainer" has no attribute "logger"  [attr-defined]
+ChatterBot\chatterbot\trainers.py:512: error: Incompatible types in assignment (expression has type "str", variable has type "None")  [assignment]
+ChatterBot\chatterbot\trainers.py:690: error: Incompatible types in assignment (expression has type "str", variable has type "None")  [assignment]
+Found 46 errors in 16 files (checked 67 source files)
