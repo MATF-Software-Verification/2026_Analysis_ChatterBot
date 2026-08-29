@@ -1,6 +1,4 @@
-# Property-based testovi (Hypothesis). Umesto pojedinacnog primera zadajemo
-# svojstvo koje mora da vazi za svaki ulaz, a alat sam pravi ulaze i trazi
-# onaj koji ga obori. st.text() u @given znaci "bilo kakav tekst".
+
 from datetime import datetime
 
 import pytest
@@ -21,7 +19,7 @@ def test_ciscenje_ne_ostavlja_dvostruke_razmake(tekst):
 
 @given(st.text())
 def test_ciscenje_je_idempotentno(tekst):
-    # f(f(x)) == f(x); bitno jer se preprocesori primenjuju u petlji
+    # f(f(x)) mora da bude isto kao f(x)
     jednom = clean_whitespace(Statement(text=tekst)).text
     dvaput = clean_whitespace(Statement(text=jednom)).text
 
@@ -30,7 +28,7 @@ def test_ciscenje_je_idempotentno(tekst):
 
 @given(st.text())
 def test_konverzija_daje_samo_ascii(tekst):
-    # ako izlaz nije ASCII, encode ce baciti izuzetak i test pada
+    # encode puca ako izlaz nije ascii
     convert_to_ascii(Statement(text=tekst)).text.encode('ascii')
 
 
@@ -46,40 +44,34 @@ def test_tekst_je_maksimalno_slican_sam_sebi(a):
     assert levenshtein.compare_text(a, a) == 1.0
 
 
-# Nalaz #1: datetime_parsing sme da vrati praznu listu, ali ne sme da pukne.
-# Ulaze je nasao Hypothesis (tools/hypothesis/nadji_kontraprimere.py), ovde
-# su zapisani najmanji primeri.
+# nalaz #1 parser sme da vrati praznu listu ali ne sme da pukne
+# ulaze je nasao Hypothesis
 
 def test_bag_1a_last_month_puca_u_januaru():
-    # parsing.py:609 racuna datetime(godina, mesec - 1, dan), pa u januaru
-    # dobije mesec 0. Grana za "next month" prelaz preko godine radi ispravno.
+    # parsing.py:609 u januaru dobije mesec 0
     with pytest.raises(ValueError, match='month must be in 1..12'):
         datetime_parsing('last month', base_date=datetime(2026, 1, 15))
 
 
 def test_bag_1b_last_month_puca_31_u_mesecu():
-    # ista linija ne skracuje dan na duzinu ciljnog meseca: 31. mart -> 31. februar
+    # ne skracuje dan na duzinu ciljnog meseca
     with pytest.raises(ValueError, match='day is out of range'):
         datetime_parsing('last month', base_date=datetime(2026, 3, 31))
 
 
 def test_bag_1c_end_of_the_week_uvek_puca():
-    # parsing.py:636 uzima base_date.weekday() (int) pa to sabira sa timedelta;
-    # istu gresku je prijavio i mypy, a "end of the month" radi normalno
+    # parsing.py:636 sabira int i timedelta
     with pytest.raises(TypeError):
         datetime_parsing('end of the week', base_date=datetime(2026, 6, 15))
 
 
 def test_bag_1d_29_sati_puca():
-    # parsing.py:496-501 tumaci "N hours" kao doba dana umesto kao trajanje,
-    # pa pravi datetime sa satom 29
+    # N hours se tumaci kao doba dana
     with pytest.raises(ValueError, match='hour must be in 0..23'):
         datetime_parsing('29 hours', base_date=datetime(2026, 6, 15))
 
 
 def test_bag_1e_end_of_the_ponedeljak_puca():
-    # date_from_relative_day (parsing.py:564) nema granu za "end of the" pa
-    # vrati None, a pozivalac na to dodaje timedelta. Mypy je to prijavio kao
-    # "Missing return statement".
+    # parsing.py:564 vrati None pa se na to dodaje timedelta
     with pytest.raises(TypeError):
         datetime_parsing('end of the monday', base_date=datetime(2026, 6, 15))

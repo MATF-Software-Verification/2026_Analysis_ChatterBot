@@ -1,15 +1,12 @@
-# Integracioni testovi za sloj baze (chatterbot/storage/sql_storage.py).
-# Za razliku od jedinicnih testova, ovde nema laznih objekata - koristi se
-# prava SQLite baza na disku, pa se vidi i da li podaci zaista tamo zavrse.
+
 import pytest
 from chatterbot.storage import SQLStorageAdapter
 
 
 @pytest.fixture
 def skladiste(tmp_path):
-    # tmp_path je pytest-ov privremeni folder, drugaciji za svaki test.
-    # raise_on_missing_search_text iskljucujemo jer ovde ne testiramo
-    # indeksiranje nego samu bazu.
+    # nova prazna baza za svaki test
+    # zastita za search_text nam ovde ne treba
     adapter = SQLStorageAdapter(
         database_uri='sqlite:///{}'.format(tmp_path / 'test.sqlite3'),
         raise_on_missing_search_text=False,
@@ -36,7 +33,7 @@ def test_upis_i_citanje(skladiste):
 
 
 def test_filtriranje_po_in_response_to(skladiste):
-    # ovako bot trazi moguce odgovore na zadatu recenicu
+    # ovako bot trazi odgovore
     skladiste.create(text='zdravo', in_response_to='hej')
     skladiste.create(text='cao', in_response_to='hej')
     skladiste.create(text='nesto', in_response_to='drugo pitanje')
@@ -47,8 +44,7 @@ def test_filtriranje_po_in_response_to(skladiste):
 
 
 def test_tagovi_se_cuvaju_u_svojoj_tabeli(skladiste):
-    # tagovi su zasebna tabela povezana sa recenicama, pa upis mora da napravi
-    # redove u obe tabele i vezu medju njima
+    # tagovi idu u zasebnu tabelu
     skladiste.create(text='zdravo', tags=['pozdrav'])
     skladiste.create(text='zbogom', tags=['rastanak'])
 
@@ -67,15 +63,13 @@ def test_brisanje(skladiste):
 
 
 def test_prazna_baza_daje_jasnu_gresku(skladiste):
-    # prazna baza je ocekivano stanje pre treniranja, pa za to postoji
-    # posebna greska sa uputstvom korisniku
+    # prazna baza ima svoju gresku
     with pytest.raises(SQLStorageAdapter.EmptyDatabaseException):
         skladiste.get_random()
 
 
 def test_podaci_prezivljavaju_zatvaranje_veze(tmp_path):
-    # upisemo jednim adapterom, zatvorimo ga, pa otvorimo novi nad istim
-    # fajlom - jedini nacin da se stvarno proveri da nije ostalo u memoriji
+    # upis jednim adapterom pa citanje drugim
     putanja = 'sqlite:///{}'.format(tmp_path / 'trajna.sqlite3')
 
     prvi = SQLStorageAdapter(database_uri=putanja, raise_on_missing_search_text=False)

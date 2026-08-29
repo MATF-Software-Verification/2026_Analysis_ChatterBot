@@ -1,4 +1,4 @@
-# Testovi za preprocesore, funkcije koje ciste ulazni tekst pre pretrage.
+# testovi za preprocesore
 import pytest
 from chatterbot.conversation import Statement
 from chatterbot.preprocessors import clean_whitespace, convert_to_ascii, unescape_html
@@ -53,7 +53,6 @@ def test_convert_to_ascii(ulaz, ocekivano):
 
 
 def test_convert_to_ascii_brise_cirilicu():
-    # cirilica nema ASCII parnjaka pa ceo tekst nestane
     assert convert_to_ascii(Statement(text='Здраво')).text == ''
 
 
@@ -65,8 +64,6 @@ def test_convert_to_ascii_menja_isti_objekat():
     assert rezultat is statmanet
     assert statmanet.text == 'Cacak'
 
-
-# jos nekoliko jednostavnih provera
 
 def test_clean_whitespace_cist_tekst_ostaje_isti():
     assert clean_whitespace(Statement(text='ovo je vec cisto')).text == 'ovo je vec cisto'
@@ -105,7 +102,6 @@ def test_unescape_html_apostrof():
 
 
 def test_unescape_html_broj_entiteta():
-    # &#65; je kod za slovo A
     assert unescape_html(Statement(text='&#65;')).text == 'A'
 
 
@@ -134,7 +130,7 @@ def test_convert_to_ascii_nemacko_slovo():
 
 
 def test_sva_tri_preprocesora_zajedno():
-    # ovako se preprocesori ulancavaju u samom botu
+    # ovako se ulancavaju u botu
     statement = Statement(text='  &lt;b&gt;   Čačak  ')
 
     statement = clean_whitespace(statement)

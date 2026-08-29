@@ -1,11 +1,11 @@
-# Testovi za Statement. To je jedna recenica u razgovoru i osnovni podatak bota.
+# testovi za Statement
 from datetime import datetime, timezone
 
 from chatterbot.conversation import Statement
 
 
 def test_tekst_se_pretvara_u_string():
-    # conversation.py:80 radi str(text), pa i broj postane string
+    # conversation.py:80 radi str(text)
     assert Statement(text=42).text == '42'
 
 
@@ -27,7 +27,7 @@ def test_tagovi():
 
 
 def test_serialize_vraca_sva_polja():
-    # serialize() pretvara objekat u recnik, tako recenica ide u bazu
+    # serialize pravi recnik za upis u bazu
     podaci = Statement(text='zdravo', in_response_to='pitanje').serialize()
 
     assert podaci['text'] == 'zdravo'
@@ -35,10 +35,8 @@ def test_serialize_vraca_sva_polja():
 
 
 def test_bag_6_created_at_je_lokalno_vreme_oznaceno_kao_utc():
-    # nalaz #6: conversation.py:92 uzme datetime.now() (lokalno vreme), a
-    # linija 99 mu samo zalepi oznaku UTC umesto da ga konvertuje.
-    # Test radi i na masini u UTC zoni jer proverava bas to - da created_at
-    # nosi lokalne sate, a tvrdi da je UTC.
+    # nalaz #6 lokalno vreme dobije oznaku UTC bez konverzije
+    # conversation.py:92 i :99
     lokalno_sada = datetime.now()
 
     statement = Statement(text='zdravo')
@@ -47,8 +45,6 @@ def test_bag_6_created_at_je_lokalno_vreme_oznaceno_kao_utc():
     razlika = abs((statement.created_at.replace(tzinfo=None) - lokalno_sada).total_seconds())
     assert razlika < 5
 
-
-# jos nekoliko jednostavnih provera
 
 def test_str_vraca_tekst():
     assert str(Statement(text='zdravo')) == 'zdravo'
@@ -90,7 +86,6 @@ def test_tagovi_se_dodaju_u_vise_poziva():
 
 
 def test_dve_recenice_ne_dele_tagove():
-    # svaka instanca dobija svoju listu tagova
     prva = Statement(text='a')
     druga = Statement(text='b')
 
@@ -114,7 +109,6 @@ def test_serialize_sadrzi_ocekivane_kljuceve():
 
 
 def test_created_at_iz_stringa():
-    # ako se datum zada kao string, parsira ga dateutil
     statement = Statement(text='zdravo', created_at='2020-05-17T12:30:00')
 
     assert statement.created_at.year == 2020

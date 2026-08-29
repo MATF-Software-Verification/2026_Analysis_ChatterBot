@@ -1,11 +1,10 @@
-Trazenje ulaza koji obaraju datetime_parsing (5000 primera)...
+Trazim fraze koje obaraju datetime_parsing...
 
-Pronadjene razlicite greske:
+Pronadjene greske:
 
-  ulaz '31 friday end of the friday' (bazni datum 2022-03-24) -> TypeError: unsupported operand type(s) for +: 'NoneType' and 'datetime.timedelta'
-  ulaz 'end of the week end of the of' (bazni datum 2022-06-11) -> TypeError: unsupported operand type(s) for +: 'int' and 'datetime.timedelta'
-  ulaz '30 31st february in'  (bazni datum 2020-03-01) -> ValueError: day is out of range for month
-  ulaz 'in day 29 hours'      (bazni datum 2023-02-24) -> ValueError: hour must be in 0..23
-  ulaz 'last month last monday' (bazni datum 2020-01-07) -> ValueError: month must be in 1..12
+  fraza 'february month end of the friday' -> TypeError: unsupported operand type(s) for +: 'NoneType' and 'datetime.timedelta'
+  fraza 'ago of end of the week' -> TypeError: unsupported operand type(s) for +: 'int' and 'datetime.timedelta'
+  fraza '31 february february 31' -> ValueError: day is out of range for month
+  fraza 'end of the last 30 hours' -> ValueError: hour must be in 0..23
 
-Ukupno razlicitih gresaka: 5
+Ukupno razlicitih gresaka: 4

@@ -1,5 +1,4 @@
-# Testovi za MathematicalEvaluation, najjednostavniji logic adapter.
-# Prepozna matematicki izraz u recenici, izracuna ga i vrati rezultat.
+# testovi za matematicki adapter
 import pytest
 from chatterbot import ChatBot
 from chatterbot.conversation import Statement
@@ -8,7 +7,7 @@ from chatterbot.logic import MathematicalEvaluation
 
 @pytest.fixture
 def adapter():
-    # adapteru treba bot, pa ga pravimo sa bazom u memoriji
+    # baza u memoriji
     bot = ChatBot('TestBot', database_uri=None, initialize=False)
     return MathematicalEvaluation(bot)
 
@@ -32,15 +31,13 @@ def test_racuna_izraz(adapter):
 
 
 def test_moze_da_se_koristi_kao_alat(adapter):
-    # adapter moze i direktno da se pozove, npr. iz LLM adaptera
+    # adapter moze i direktno da se pozove
     assert adapter.execute_as_tool(expression='five times five') == 'five times five = 25'
 
 
 def test_alat_bez_izraza_vraca_gresku(adapter):
     assert adapter.execute_as_tool() == 'Error: No expression provided'
 
-
-# jos nekoliko jednostavnih provera
 
 @pytest.mark.parametrize('pitanje, ocekivano', [
     ('What is 2 + 2?', '2 + 2 = 4'),
@@ -65,7 +62,6 @@ def test_ne_prepoznaje_tekst_bez_izraza(adapter, tekst):
 
 
 def test_pouzdanost_je_uvek_jedan(adapter):
-    # kad prepozna izraz, adapter je siguran u svoj odgovor
     statement = Statement(text='What is 3 + 3?')
     adapter.can_process(statement)
 

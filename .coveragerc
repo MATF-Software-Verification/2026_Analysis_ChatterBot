@@ -1,15 +1,14 @@
-# Podesavanja za coverage.py, alat koji meri pokrivenost koda testovima.
+# podesavanja za coverage.py
 [run]
-# merimo analizirani projekat, ne svoje testove
+# merim analizirani projekat
 source = ChatterBot/chatterbot
 
 omit =
-    # testovi samog ChatterBot-a nisu predmet merenja
+    # tudji testovi
     */ChatterBot/tests/*
-    # languages.py je tabela sa 2418 linija podataka o jezicima, bez logike;
-    # sam import ga "pokrije" pa bi lazno digao ukupan procenat
+    # tabela podataka bez logike koju sam import pokrije
     */languages.py
-    # ovo je van obima rada: trazi Redis, MongoDB ili Django projekat
+    # van obima rada
     */storage/redis.py
     */storage/mongodb.py
     */vectorstores.py

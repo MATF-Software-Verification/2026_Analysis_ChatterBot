@@ -1,15 +1,10 @@
-# Dokaz za nalaz #3: zastita od path traversal-a u trainers.py moze da se
-# zaobidje. Pravim tar arhivu ciji clan izlazi u sestrinski direktorijum i
-# pustam je kroz pravi UbuntuCorpusTrainer.extract(). Objasnjenje je u
-# izvestaju, poglavlje o pronadjenim problemima.
-#
-# Pokretanje:  python tools/bandit/poc_path_traversal.py
+
 import os
 import sys
 import tarfile
 import tempfile
 
-# da bi radio import chatterbot iz submodula bez instalacije paketa
+# import chatterbot iz submodula
 KOREN = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(KOREN, 'ChatterBot'))
 
@@ -18,8 +13,7 @@ from chatterbot.trainers import UbuntuCorpusTrainer
 
 
 def napravi_zlonamernu_arhivu(radni_direktorijum):
-    # namerno nije ../../etc/passwd, jer to zastita ispravno odbija;
-    # propusta bas sestrinski direktorijum koji deli prefiks sa dozvoljenim
+    # sestrinski direktorijum prolazi zastitu
     sadrzaj = os.path.join(radni_direktorijum, 'pwned.txt')
     with open(sadrzaj, 'w', encoding='utf-8') as f:
         f.write('Ovaj fajl je zavrsio van dozvoljenog direktorijuma.')
@@ -34,7 +28,7 @@ def napravi_zlonamernu_arhivu(radni_direktorijum):
 def main():
     radni = tempfile.mkdtemp(prefix='chatterbot_poc_')
 
-    # trener raspakuje u <data_directory>/ubuntu_dialogs
+    # trener raspakuje u ubuntu_dialogs
     data_directory = os.path.join(radni, 'ubuntu_data')
     dozvoljeni = os.path.join(data_directory, 'ubuntu_dialogs')
     os.makedirs(dozvoljeni, exist_ok=True)
@@ -61,7 +55,7 @@ def main():
     print()
     print('ZAKLJUCAK:', 'ZASTITA JE PROBIJENA' if uspeh else 'zastita je izdrzala')
 
-    # 0 znaci da ranjivost i dalje postoji, 1 da je popravljena
+    # 0 znaci da ranjivost postoji
     return 0 if uspeh else 1
 
 

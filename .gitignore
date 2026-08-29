@@ -1,11 +1,11 @@
-# Python
+# python
 __pycache__/
 *.py[cod]
 *.egg-info/
 .venv/
 venv/
 
-# Testiranje / pokrivenost
+# keseve alata
 .pytest_cache/
 .hypothesis/
 .coverage
@@ -13,18 +13,10 @@ venv/
 htmlcov/
 .mypy_cache/
 
-# Baze koje testovi ostave iza sebe
+# baze iz testova
 *.sqlite3
 db.sqlite3
 
-# OS
+# windows
 Thumbs.db
 .DS_Store
-
-# LaTeX - pomocni fajlovi koji nastaju pri prevodjenju
-*.aux
-*.log
-*.out
-*.toc
-
-latex/*.pdf

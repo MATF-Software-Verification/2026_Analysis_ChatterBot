@@ -18,4 +18,4 @@ tests/property/test_properties.py::test_bag_1c_end_of_the_week_uvek_puca PASSED 
 tests/property/test_properties.py::test_bag_1d_29_sati_puca PASSED       [ 90%]
 tests/property/test_properties.py::test_bag_1e_end_of_the_ponedeljak_puca PASSED [100%]
 
-============================= 10 passed in 6.77s ==============================
+============================= 10 passed in 4.60s ==============================

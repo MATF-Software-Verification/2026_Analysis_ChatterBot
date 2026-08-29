@@ -1,6 +1,4 @@
-# Integracioni testovi celog toka: trening, odgovaranje i ucenje.
-# Ovde rade svi slojevi zajedno - prava baza, pravi spaCy model i pravi
-# treneri - pa se hvataju greske koje nastaju tek u spoju komponenti.
+
 import json
 
 import pytest
@@ -11,7 +9,7 @@ from chatterbot.trainers import ListTrainer, ChatterBotCorpusTrainer, JsonFileTr
 
 @pytest.fixture(scope='module')
 def tagger():
-    # spaCy model se ucitava par sekundi, pa ga pravimo jednom za ceo fajl
+    # spaCy model se ucitava jednom za ceo fajl
     return PosLemmaTagger()
 
 
@@ -31,7 +29,7 @@ def bot(tagger, tmp_path):
 
 
 def treniraj(bot, recenice):
-    # ListTrainer uci bota da je svaka recenica odgovor na prethodnu
+    # svaka recenica je odgovor na prethodnu
     ListTrainer(bot, show_training_progress=False).train(recenice)
 
 
@@ -45,7 +43,6 @@ def test_bot_odgovara_nauceno(bot):
 
 
 def test_slicno_pitanje_daje_isti_odgovor(bot):
-    # bot ne trazi doslovno poklapanje nego najslicniju zapamcenu recenicu
     treniraj(bot, ['What is your name?', 'My name is ChatterBot.'])
 
     odgovor = bot.get_response('What is your name')     # bez upitnika
@@ -54,7 +51,7 @@ def test_slicno_pitanje_daje_isti_odgovor(bot):
 
 
 def test_preprocesor_ucestvuje_u_toku(bot):
-    # visak beline se cisti pre pretrage, inace se ulaz ne bi poklopio
+    # visak beline se cisti pre pretrage
     treniraj(bot, ['What is your name?', 'My name is ChatterBot.'])
 
     odgovor = bot.get_response('  What   is your name?  ')
@@ -63,7 +60,7 @@ def test_preprocesor_ucestvuje_u_toku(bot):
 
 
 def test_bot_uci_iz_razgovora(bot):
-    # bot u bazu upisuje i korisnikov ulaz i svoj odgovor, pa baza raste
+    # bot upisuje ulaz i odgovor pa baza raste
     treniraj(bot, ['Hello', 'Hi there!'])
     pre = bot.storage.count()
 
@@ -73,7 +70,7 @@ def test_bot_uci_iz_razgovora(bot):
 
 
 def test_read_only_bot_ne_uci(tagger, tmp_path):
-    # read_only je jedini prekidac izmedju "bot uci" i "bot ne uci"
+    # read_only iskljucuje ucenje
     bot = ChatBot(
         'ReadOnly',
         database_uri='sqlite:///{}'.format(tmp_path / 'ro.sqlite3'),
@@ -92,15 +89,14 @@ def test_read_only_bot_ne_uci(tagger, tmp_path):
 
 
 def test_netreniran_bot_ne_puca(bot):
-    # nad praznom bazom BestMatch vrati sam ulaz sa pouzdanoscu 0
+    # prazna baza vraca sam ulaz uz pouzdanost 0
     odgovor = bot.get_response('Nesto sto bot ne zna')
 
     assert odgovor.confidence == 0
 
 
 def test_matematicki_adapter_pobedjuje_po_pouzdanosti(tagger, tmp_path):
-    # kad ima vise adaptera, bira se onaj sa najvecom pouzdanoscu;
-    # MathematicalEvaluation za prepoznat izraz vraca 1
+    # pobedjuje adapter sa vecom pouzdanoscu
     bot = ChatBot(
         'Racunar',
         database_uri='sqlite:///{}'.format(tmp_path / 'math.sqlite3'),
@@ -120,7 +116,6 @@ def test_matematicki_adapter_pobedjuje_po_pouzdanosti(tagger, tmp_path):
 
 
 def test_trening_iz_korpusa(bot):
-    # korpus dolazi iz zasebnog paketa chatterbot_corpus
     ChatterBotCorpusTrainer(bot, show_training_progress=False).train(
         'chatterbot.corpus.english.greetings'
     )
@@ -129,9 +124,8 @@ def test_trening_iz_korpusa(bot):
 
 
 def test_bag_9_bot_ponavlja_korisnikov_ulaz(bot):
-    # nalaz #9: obe recenice dobiju isti indeks za pretragu, pa BestMatch u
-    # drugoj fazi (best_match.py:85) medju kandidate uvuce i sam trenirani
-    # ulaz i onda ga vrati. Za par ['Hello', 'Hi there!'] ovo se ne desava.
+    # nalaz #9 obe recenice imaju isti indeks pa bot vrati ulaz
+    # best_match.py:85
     treniraj(bot, ['Good morning', 'Good morning to you too'])
 
     odgovor = bot.get_response('Good morning')
@@ -140,15 +134,14 @@ def test_bag_9_bot_ponavlja_korisnikov_ulaz(bot):
 
 
 def test_bag_9_koren_isti_indeks_za_razlicite_recenice(bot):
-    # koren baga #9, izolovan: dve razlicite recenice daju isti indeks
+    # isti indeks za dve razlicite recenice
     assert bot.tagger.get_text_index_string('Good morning') == 'ADJ:morning'
     assert bot.tagger.get_text_index_string('Good morning to you too') == 'ADJ:morning'
 
 
 def test_bag_10_izvoz_se_ne_moze_uvesti(bot, tmp_path):
-    # nalaz #10: izvoz (trainers.py:75) pise kljuc "conversations" i listu
-    # parova, a JsonFileTrainer (:310) cita "conversation" i ocekuje listu
-    # recnika, pa uvoz puca
+    # nalaz #10 izvoz pise conversations a uvoz cita conversation
+    # trainers.py:75 i :310
     trener = ListTrainer(bot, show_training_progress=False)
     trener.train(['Hello', 'Hi there!'])
     izlaz = tmp_path / 'izvoz.json'

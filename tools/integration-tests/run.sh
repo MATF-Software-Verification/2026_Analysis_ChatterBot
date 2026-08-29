@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Alat 2: integracioni testovi, sa pravom bazom i pravim spaCy modelom.
+# alat 5 integracioni testovi
 #   bash tools/integration-tests/run.sh
 
 mkdir -p tools/integration-tests/results

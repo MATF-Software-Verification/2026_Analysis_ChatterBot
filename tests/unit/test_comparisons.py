@@ -1,4 +1,4 @@
-# Testovi za komparatore. Oni racunaju koliko su dva teksta slicna, od 0 do 1.
+# testovi za komparatore
 import warnings
 
 import pytest
@@ -6,25 +6,24 @@ from chatterbot.comparisons import LevenshteinDistance, SpacySimilarity, Jaccard
 from chatterbot.languages import ENG
 
 
-# Komparatori se prave jednom za ceo fajl (scope='module') jer konstruktor
-# ucitava spaCy model, a to traje par sekundi.
+# spaCy model se ucitava jednom za ceo fajl
 @pytest.fixture(scope='module')
-def levenshtein():
+def levenshtein(): #po karakterima
     return LevenshteinDistance(ENG)
 
 
 @pytest.fixture(scope='module')
-def jaccard():
+def jaccard(): #poklapanje vokabulara
     return JaccardSimilarity(ENG)
 
 
 @pytest.fixture(scope='module')
-def spacy_slicnost():
+def spacy_slicnost(): #vektorski embedinzi
     return SpacySimilarity(ENG)
 
 
 def test_levenshtein_primer_iz_dokumentacije(levenshtein):
-    # u komentaru klase (comparisons.py:42) pise da je ova slicnost 65%
+    # comparisons.py:42 tvrdi da je ovo 65%
     rezultat = levenshtein.compare_text(
         'where is the post office?',
         'looking for the post office'
@@ -39,26 +38,23 @@ def test_levenshtein_ne_gleda_velika_i_mala_slova(levenshtein):
 
 @pytest.mark.parametrize('a, b', [('hello', None), (None, 'hello')])
 def test_levenshtein_vraca_nulu_za_none(levenshtein, a, b):
-    # None ovde nije greska, znaci da teksta nema
+    # None znaci da teksta nema
     assert levenshtein.compare_text(a, b) == 0
 
 
 def test_jaccard_delimicno_poklapanje(jaccard):
-    # 'hello world' daje leme {hello, world}, a 'hello there' samo {hello}
-    # jer je 'there' stop-rec. Presek / unija = 1/2.
+    # there je stop-rec pa ostaje presek 1 od 2
     assert jaccard.compare_text('hello world', 'hello there') == 0.5
 
 
 def test_bag_2_jaccard_deli_nulom(jaccard):
-    # nalaz #2: kad su oba teksta samo stop-reci, skupovi lema ostanu prazni
-    # pa comparisons.py:183 deli nulom
+    # nalaz #2 comparisons.py:183 deli nulom
     with pytest.raises(ZeroDivisionError):
         jaccard.compare_text('the', 'the')
 
 
 def test_bag_5_spacy_bez_vektora(spacy_slicnost):
-    # nalaz #5: model iz constants.py:36 nema vektore reci, pa i nepovezane
-    # recenice dobiju slicnost oko 0.87 i spaCy javi upozorenje W007
+    # nalaz #5 model bez vektora daje visoku slicnost
     with warnings.catch_warnings(record=True) as uhvacena:
         warnings.simplefilter('always')
         rezultat = spacy_slicnost.compare_text(
@@ -73,13 +69,10 @@ def test_bag_5_spacy_bez_vektora(spacy_slicnost):
 
 
 def test_bag_4_levenshtein_nije_simetrican(levenshtein):
-    # nalaz #4: zamena argumenata menja rezultat, jer difflib.SequenceMatcher
-    # gleda indekse drugog niza. Kontraprimer je nasao Hypothesis.
+    # nalaz #4 zamena argumenata menja rezultat
     assert levenshtein.compare_text('ab', 'bacb') == 0.67
     assert levenshtein.compare_text('bacb', 'ab') == 0.33
 
-
-# jos nekoliko jednostavnih provera
 
 def test_levenshtein_isti_tekst(levenshtein):
     assert levenshtein.compare_text('hello', 'hello') == 1.0
@@ -90,7 +83,6 @@ def test_levenshtein_potpuno_razlicit_tekst(levenshtein):
 
 
 def test_levenshtein_prazan_i_prazan(levenshtein):
-    # dva prazna teksta su ista, pa je slicnost 1
     assert levenshtein.compare_text('', '') == 1.0
 
 
@@ -99,7 +91,6 @@ def test_levenshtein_tekst_i_prazan(levenshtein):
 
 
 def test_levenshtein_slicne_reci(levenshtein):
-    # 'cat' i 'cats' se razlikuju samo u jednom slovu
     assert levenshtein.compare_text('cat', 'cats') == 0.86
 
 
@@ -126,7 +117,6 @@ def test_jaccard_ne_gleda_velika_i_mala_slova(jaccard):
 
 
 def test_jaccard_redosled_reci_nije_bitan(jaccard):
-    # poredi skupove lema, pa redosled reci ne utice na rezultat
     assert jaccard.compare_text('cat dog', 'dog cat') == 1.0
 
 
